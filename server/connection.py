@@ -22,11 +22,13 @@ def dispatch(connectionSocket: socket, localStorage: Path):
 
         _ = connectionSocket.send(resBytes)
         connectionSocket.close()
-    except Exception as e:
+    except:
         # log exceptino, and respond client with bad request
         log.exception("an error occurred")
 
-        resBytes = wire.generateResponse(handler.badRequest())
-        _ = connectionSocket.send(resBytes)
+        try:
+            _ = connectionSocket.send(wire.generateResponse(handler.badRequest()))
+        except:
+            pass
 
         connectionSocket.close()
